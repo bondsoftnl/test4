@@ -1,0 +1,9 @@
+{
+  "name": "local/auth-workspace-setup",
+  "description": "Auth workspace bootstrap for local development",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "ext-pdo": "*"
+  }
+}
