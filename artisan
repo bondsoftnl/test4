@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/app/helpers.php';
+
+$command = $argv[1] ?? null;
+
+switch ($command) {
+    case 'key:generate':
+        $envPath = __DIR__ . '/.env';
+        if (!file_exists($envPath)) {
+            if (!file_exists(__DIR__ . '/.env.example')) {
+                fwrite(STDERR, ".env.example not found.\n");
+                exit(1);
+            }
+            copy(__DIR__ . '/.env.example', $envPath);
+        }
+
+        $env = env_load($envPath);
+        $env['APP_KEY'] = 'base64:' . base64_encode(random_bytes(32));
+        env_write($envPath, $env);
+        echo "Application key set successfully.\n";
+        break;
+
+    case 'migrate':
+        require __DIR__ . '/scripts/migrate.php';
+        break;
+
+    case 'db:seed':
+        require __DIR__ . '/scripts/seed.php';
+        break;
+
+    case 'serve':
+        $host = '127.0.0.1';
+        $port = '8000';
+        passthru(sprintf('php -S %s:%s -t public public/index.php', $host, $port));
+        break;
+
+    default:
+        echo "Available commands:\n";
+        echo "  php artisan key:generate\n";
+        echo "  php artisan migrate\n";
+        echo "  php artisan db:seed\n";
+        echo "  php artisan serve\n";
+        exit($command === null ? 0 : 1);
+}

@@ -1,0 +1,10 @@
+{
+  "name": "auth-workspace-setup",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Minimal auth setup workspace bootstrap",
+  "scripts": {
+    "dev": "echo 'Vue is delivered via CDN for this bootstrap screen. Open http://127.0.0.1:8000 after php artisan serve.'",
+    "check": "node -e \"console.log('frontend check: package.json detected')\""
+  }
+}
